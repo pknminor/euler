@@ -28,7 +28,9 @@
 ## function to check if number if lychrel or not
 
 import sys
+from time import time
 
+# reverse number
 def reverse(num):
     temp=num
     reversed=0
@@ -37,37 +39,35 @@ def reverse(num):
     while(temp>0):
         reversed=reversed*10 + temp%10
         temp/=10
-        #print "temp" + str(temp)
-        #print "rev" + str(reversed)
     return reversed
 
+# check if palindrome
 def is_palin(num):
     return reverse(num) == num
 
+# check if lycheral within 50 iterations
 def is_lychrel(num):
-    if is_palin(num):
-        return True
-    else:
-        iter=0
-        newnum = num
-        while(1):
+    iter=0
+    newnum = num
+    print "num = " + str(num)
+    while True:
+        newnum += reverse(newnum)
+        print "newnum = " + str(newnum) + " iteration count = " + str(iter)
+        if is_palin(newnum):
+            print "It took " + str(iter) + " iterations to get a palindrome"
+            return True
+        if iter > 50:
+            print "Found a lycheral number = " + str(num)
+            return False
+        else:
             iter+=1
-            newnum = newnum + reverse(newnum)
-            #print "newnum = " + str(newnum)
-            if is_palin(newnum):
-                #print "It took " + str(iter) + " iterations to get a palindrome"
-                return True
-            if iter > 50:
-                return False
 
 def main(argv):
     num_not_lycheral=0
     for i in range(10000):
         if is_lychrel(i) == False:
-            #print str(i) + " is not lycheral!!"
             num_not_lycheral+=1
     print "Total num" + str(num_not_lycheral)
 
 if __name__ == "__main__":
     main(sys.argv)
-
