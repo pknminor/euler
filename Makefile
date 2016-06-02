@@ -1,6 +1,4 @@
 def: run
 
-
-
 run:
-	python prob_55.py
+	python prob_192.py | tee std

@@ -21,10 +21,7 @@
 # there below ten-thousand?  NOTE: Wording was modified slightly on 24 April
 # 2007 to emphasise the theoretical nature of Lychrel numbers.
 ###############################################################################################################################################~
-
-
 # Solution: brute force method seems simple enough, iteratively check, reverse and add
-
 ## function to check if number if lychrel or not
 
 import sys
