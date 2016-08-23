@@ -14,7 +14,7 @@
 import sys
 from time import time
 
-debug=0
+debug=1
 
 '''
 Notes:
@@ -49,21 +49,29 @@ N-digit numbers:
 
 ### dbg_print_lo
 def dbg_lo(str):
-    if (debug<=1):
+    if (debug>=3):
         print str
+    else:
+        pass
 
 ### dbg_print_hi
 def dbg_hi(str):
-    if (debug<=2):
+    if (debug>=1):
         print str
+    else:
+        pass
 
 ## function to determine if number is prime
 def is_prime(num):
     temp=num
-    for i in range(2,num):
-        if float(num%i) == 0:
-            return 0
-    return 1
+    # return if you see a even number greater than 2
+    if ((num%2) == 0) & (num > 2):
+        return 0
+    else:
+        for i in range(2,num):
+            if float(num%i) == 0:
+                return 0
+        return 1
 
 ## function to return number of digits
 def num_digits(num):
@@ -98,39 +106,51 @@ def digit_replace(num, location, new_digit):
 
 ## function to get the prime family count given the number and the digit locations that will be replaced
 def family_count(num, digit_locations):
-
     string =  " The original number is " + str(num)
     dbg_lo(string)
     # replace marked locations with 0-9
-    prime_count =0
-    for new_digit in range (0,9):
-        # replace all digits # IMPROVEME
+    prime_count=0
+    new_digit=0
+    for new_digit in range(0,9+1):
+        # IMPROVEME
+        string = " The new digit is " + str(new_digit)
+        dbg_lo(string)
         newnum = num
         for location in digit_locations:
             newnum = digit_replace(newnum, location, new_digit)
 
-        string = " The new number is " + str(newnum)
+        string = " The new number with replaced digit is " + str(newnum)
         dbg_lo(string)
+
         # check if newnum is prime
-        if (is_prime(newnum)):
+        if (is_prime(newnum)) & (num_digits(newnum)==num_digits(num)):
             prime_count +=1
             string = " The new number is " + str(newnum) + "prime"
             dbg_lo(string)
+
         # print the prime count
         string = " The prime count is" + str(prime_count)
         dbg_lo(string)
+    # make sure return are good!
+    return prime_count
 
 # main loop
 def prob_51():
-    for j in range(10, 99999999):
-        # find number of digits
-        tot_digits = num_digits()
-        # find replace digits
-        pass
+    for j in range(10000, 99999):
+    #for j in range(56000, 56005):
+        locations = [3,4]
+        string = "Evaluating number = " + str(j) + " at locations" + str(locations)
+        dbg_lo(string)
+        prime_count = family_count(j, locations)
+        string = "Prime count = " + str(prime_count)
+        dbg_lo(string)
+        if (prime_count==7):
+            string = " The number whose family count is 7 " + str(j)
+            dbg_hi(string)
 
 def main(argv):
     # main
-    #prob_51()
+    prob_51()
 
     # test num_digits
     # num  = 190
@@ -156,22 +176,9 @@ def main(argv):
     # test family_count
     # num = 13
     # location = 1
-    locations = [1]
-    family_count(13, locations)
-
-    # yadr
-    pass
+    locations = [3,4]
+    family_count(56003, locations)
 
 if __name__ == "__main__":
     main(sys.argv)
-
-
-
-
-
-
-
-
-
-
 
