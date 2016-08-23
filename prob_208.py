@@ -7,3 +7,17 @@
 # 
 # Given that the robot starts facing North, how many journeys of 70 arcs in length can it take that return it, after the final arc, to its starting position?
 # (Any arc may be traversed multiple times.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
