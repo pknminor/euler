@@ -12,9 +12,11 @@
  # adjacent digits) with the same digit, is part of an eight prime value family.
 
 import sys
+import itertools
+
 from time import time
 
-debug=1
+debug=3
 
 '''
 Notes:
@@ -61,6 +63,14 @@ def dbg_hi(str):
     else:
         pass
 
+# factorial
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+
 ## function to determine if number is prime
 def is_prime(num):
     temp=num
@@ -93,28 +103,36 @@ def digit_replace(num, location, new_digit):
     for curr_digit_location in range(1, tot_digits+1):
         string = " curr_digit_location = " + str(curr_digit_location)
         dbg_lo(string)
+
         new_num *= 10
-        if (tot_digits-curr_digit_location+1) == location:
+        if (tot_digits-curr_digit_location+1) == location[0]:
             new_num += new_digit
         else:
             new_num += temp%10
         temp /= 10
+
     # return reversed
-    string = " digit_replace output" + str(new_num)[::-1]
+    string = " num                   " + str(num)
+    string += " location              " + str(location)
+    string += " digit_replace output  " + str(new_num)[::-1]
     dbg_lo(string)
+
     return int(str(new_num)[::-1])
 
 ## function to get the prime family count given the number and the digit locations that will be replaced
 def family_count(num, digit_locations):
     string =  " The original number is " + str(num)
     dbg_lo(string)
+
     # replace marked locations with 0-9
     prime_count=0
     new_digit=0
+
     for new_digit in range(0,9+1):
         # IMPROVEME
         string = " The new digit is " + str(new_digit)
         dbg_lo(string)
+
         newnum = num
         for location in digit_locations:
             newnum = digit_replace(newnum, location, new_digit)
@@ -131,54 +149,76 @@ def family_count(num, digit_locations):
         # print the prime count
         string = " The prime count is" + str(prime_count)
         dbg_lo(string)
+
     # make sure return are good!
     return prime_count
 
 # main loop
 def prob_51():
-    for j in range(10000, 99999):
-    #for j in range(56000, 56005):
-        locations = [3,4]
-        string = "Evaluating number = " + str(j) + " at locations" + str(locations)
-        dbg_lo(string)
-        prime_count = family_count(j, locations)
-        string = "Prime count = " + str(prime_count)
-        dbg_lo(string)
-        if (prime_count==7):
-            string = " The number whose family count is 7 " + str(j)
-            dbg_hi(string)
+    #for curr_num in range(100): #range(10000, 99999):#
+    for curr_num in range(10000, 99999):#
+        curr_num_tot_digits = num_digits(curr_num)
+        if (curr_num_tot_digits > 9 ):
+            exit()
+
+        for num_digit_changes in range(1, curr_num_tot_digits+1):
+
+            # create list to get various combinations of digit replaces
+            # 123 1234567 12345678
+            comb_input=[]
+            for b in range(1, curr_num_tot_digits+1):
+                comb_input.append(b)
+
+            string = "curr_num = " + str(curr_num) + " comb_input = " + str(list(comb_input))
+            dbg_lo(string)
+
+            digit_locations = list(itertools.combinations(comb_input, num_digit_changes))
+            string = "curr_num = " + str(curr_num) + " digit locations = " + str(digit_locations)
+            dbg_lo(string)
+
+            prime_count = family_count(curr_num, digit_locations)
+            if (prime_count == 7):
+                string = "Found a family of 7 raccoons!! = " + str(curr_num)
+
 
 def main(argv):
     # main
     prob_51()
+    pass
 
-    # test num_digits
-    # num  = 190
-
-    # test digit_replace
-    # num = 56003
-    # location = 5
-    # new_digit = 4
-    # newnum =  digit_replace( num, location, new_digit)
-
-    # test digit_replace
-    # num = 566777
-    # location = 2
-    # new_digit = 4
-    # newnum =  digit_replace( num, location, new_digit)
-
-    # test family_count
-    # num = 56003
-    # location = 3,4
-    # locations = [3,4]
-    # family_count(56003, locations)
-
-    # test family_count
-    # num = 13
-    # location = 1
-    locations = [3,4]
-    family_count(56003, locations)
 
 if __name__ == "__main__":
     main(sys.argv)
 
+
+# test code
+
+#num = 1334
+#comb_input = []
+
+# test num_digits
+# num  = 190
+
+# test digit_replace
+# num = 56003
+# location = 5
+# new_digit = 4
+# newnum =  digit_replace( num, location, new_digit)
+
+# test digit_replace
+# num = 566777
+# location = 2
+# new_digit = 4
+# newnum =  digit_replace( num, location, new_digit)
+
+# test family_count
+# num = 56003
+# location = 3,4
+# locations = [3,4]
+# family_count(56003, locations)
+
+# test family_count
+# num = 13
+# location = 1
+# locations = [3,4]
+# family_count(56003, locations)
