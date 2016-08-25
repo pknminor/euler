@@ -16,7 +16,7 @@ import itertools
 
 from time import time
 
-debug=3
+debug=1
 
 '''
 Notes:
@@ -100,7 +100,8 @@ def digit_replace(num, location, new_digit):
         dbg_lo(string)
 
         new_num *= 10
-        if (tot_digits-curr_digit_location+1) == location[0]:
+
+        if (tot_digits-curr_digit_location+1) == location:
             new_num += new_digit
         else:
             new_num += temp%10
@@ -148,16 +149,20 @@ def family_count(num, digit_locations):
     # make sure return are good!
     return prime_count
 
+def step_over():
+    a = raw_input('Waiting for any key before proceeding')
+
 # main loop
 def prob_51():
     #for curr_num in range(100): #range(10000, 99999):#
     for curr_num in range(10000, 99999):#
+
         curr_num_tot_digits = num_digits(curr_num)
+
         if (curr_num_tot_digits > 9 ):
             exit()
 
         for num_digit_changes in range(1, curr_num_tot_digits+1):
-
             # create list to get various combinations of digit replaces
             # 123 1234567 12345678
             comb_input = []
@@ -165,15 +170,22 @@ def prob_51():
                 comb_input.append(b)
 
             string = "curr_num = " + str(curr_num) + " comb_input = " + str(list(comb_input))
-            dbg_lo(string)
+            dbg_hi(string)
 
             digit_locations = list(itertools.combinations(comb_input, num_digit_changes))
             string = "curr_num = " + str(curr_num) + " digit locations = " + str(digit_locations)
-            dbg_lo(string)
+            dbg_hi(string)
 
-            prime_count = family_count(curr_num, digit_locations)
-            if (prime_count == 7):
-                string = "Found a family of 7 raccoons!! = " + str(curr_num)
+            step_over()
+            for curr_digit_locations in digit_locations:
+
+                string = "curr_num = " + str(curr_num) + " curr digit locations = " + str(curr_digit_locations)
+                dbg_hi(string)
+                step_over()
+
+                prime_count = family_count(curr_num, curr_digit_locations)
+                if (prime_count == 7):
+                    string = "Found a family of 7 raccoons!! = " + str(curr_num)
 
 
 def main(argv):
