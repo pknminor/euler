@@ -104,7 +104,7 @@ def digit_replace(num, location, new_digit):
         if (tot_digits-curr_digit_location+1) == location:
             new_num += new_digit
         else:
-            new_num += temp%10
+            new_num += temp % 10
         temp /= 10
 
     # return reversed
@@ -129,18 +129,19 @@ def family_count(num, digit_locations):
         string = " The new digit is " + str(new_digit)
         dbg_lo(string)
 
+        # substitute all necessary digit locations
         newnum = num
         for location in digit_locations:
             newnum = digit_replace(newnum, location, new_digit)
 
-        string = " The new number with replaced digit is " + str(newnum)
+        string = " The new number with replaced digit(s) is " + str(newnum)
         dbg_lo(string)
 
         # check if newnum is prime
         if (is_prime(newnum)) & (num_digits(newnum) == num_digits(num)):
             prime_count += 1
             string = " The new number is " + str(newnum) + "prime"
-            dbg_lo(string)
+            dbg_hi(string)
 
         # print the prime count
         string = " The prime count is" + str(prime_count)
@@ -150,16 +151,20 @@ def family_count(num, digit_locations):
     return prime_count
 
 def step_over():
-    a = raw_input('Waiting for any key before proceeding')
+    #a = raw_input('Waiting for any key before proceeding')
+    pass
 
 # main loop
 def prob_51():
     #for curr_num in range(100): #range(10000, 99999):#
-    for curr_num in range(10000, 99999):#
+    #for curr_num in range(10000, 99999):#
+    #for curr_num in range(55999, 56010):#
+    #for curr_num in range(10, 9999999):#
+    for curr_num in range(121300, 121413):#
 
         curr_num_tot_digits = num_digits(curr_num)
 
-        if (curr_num_tot_digits > 9 ):
+        if (curr_num_tot_digits > 9):
             exit()
 
         for num_digit_changes in range(1, curr_num_tot_digits+1):
@@ -174,7 +179,7 @@ def prob_51():
 
             digit_locations = list(itertools.combinations(comb_input, num_digit_changes))
             string = "curr_num = " + str(curr_num) + " digit locations = " + str(digit_locations)
-            dbg_hi(string)
+            dbg_lo(string)
 
             step_over()
             for curr_digit_locations in digit_locations:
@@ -184,8 +189,14 @@ def prob_51():
                 step_over()
 
                 prime_count = family_count(curr_num, curr_digit_locations)
-                if (prime_count == 7):
-                    string = "Found a family of 7 raccoons!! = " + str(curr_num)
+                string = "Prime count = " + str(prime_count)
+                dbg_lo(string)
+                step_over()
+
+                if (prime_count == 8):
+                    string = "Found a family of 8 raccoons!! = " + str(curr_num)
+                    dbg_hi(string)
+                    a = raw_input('Waiting for any key before proceeding')
 
 
 def main(argv):
@@ -193,10 +204,8 @@ def main(argv):
     prob_51()
     pass
 
-
 if __name__ == "__main__":
     main(sys.argv)
-
 
 # test code
 
