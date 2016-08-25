@@ -21,10 +21,6 @@ debug=3
 '''
 Notes:
 
-Bounds of the problem:
-    smallest presumed to be 10
-    largest pressumed to be 9999999
-
 N-digit numbers:
     replace 1 digit
         find location of replacement between(1st digit to Nth digit)
@@ -70,10 +66,9 @@ def factorial(n):
     else:
         return n * factorial(n - 1)
 
-
 ## function to determine if number is prime
 def is_prime(num):
-    temp=num
+    temp = num
     # return if you see a even number greater than 2
     if ((num%2) == 0) & (num > 2):
         return 0
@@ -85,10 +80,10 @@ def is_prime(num):
 
 ## function to return number of digits
 def num_digits(num):
-    temp=num
-    digits=0
+    temp = num
+    digits = 0
     while(temp>0):
-       digits +=1
+       digits += 1
        temp = temp / 10
     return digits
 
@@ -96,10 +91,10 @@ def num_digits(num):
 ## 199, 2, 8: would return 189
 ## 678, 3, 1: would return 671
 def digit_replace(num, location, new_digit):
-    temp=num
-    tot_digits=num_digits(num)
-    curr_digits= tot_digits
-    new_num=0
+    temp = num
+    tot_digits = num_digits(num)
+    curr_digits = tot_digits
+    new_num = 0
     for curr_digit_location in range(1, tot_digits+1):
         string = " curr_digit_location = " + str(curr_digit_location)
         dbg_lo(string)
@@ -125,8 +120,8 @@ def family_count(num, digit_locations):
     dbg_lo(string)
 
     # replace marked locations with 0-9
-    prime_count=0
-    new_digit=0
+    prime_count = 0
+    new_digit = 0
 
     for new_digit in range(0,9+1):
         # IMPROVEME
@@ -141,8 +136,8 @@ def family_count(num, digit_locations):
         dbg_lo(string)
 
         # check if newnum is prime
-        if (is_prime(newnum)) & (num_digits(newnum)==num_digits(num)):
-            prime_count +=1
+        if (is_prime(newnum)) & (num_digits(newnum) == num_digits(num)):
+            prime_count += 1
             string = " The new number is " + str(newnum) + "prime"
             dbg_lo(string)
 
@@ -165,7 +160,7 @@ def prob_51():
 
             # create list to get various combinations of digit replaces
             # 123 1234567 12345678
-            comb_input=[]
+            comb_input = []
             for b in range(1, curr_num_tot_digits+1):
                 comb_input.append(b)
 
