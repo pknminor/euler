@@ -59,24 +59,61 @@ def dbg_hi(str):
     else:
         pass
 
-# factorial
-def factorial(n):
-    if n == 0:
-        return 1
-    else:
-        return n * factorial(n - 1)
-
 ## function to determine if number is prime
-def is_prime(num):
-    temp = num
-    # return if you see a even number greater than 2
-    if ((num%2) == 0) & (num > 2):
-        return 0
-    else:
-        for i in range(2,num):
-            if float(num%i) == 0:
-                return 0
-        return 1
+#def is_prime(num):
+#    temp = num
+#    # return if you see a even number greater than 2
+#    if ((num%2) == 0) & (num > 2):
+#        return 0
+#    else:
+#        for i in range(2,num):
+#            if float(num%i) == 0:
+#                return 0
+#        return 1
+
+## is_prime from the internet
+## https://zach.se/project-euler-solutions/51/
+def primes(n): 
+    if n==2: return [2]
+    elif n<2: return []
+    s=list(range(3,n+1,2))
+    mroot = n ** 0.5
+    half=(n+1)//2-1
+    i=0
+    m=3
+    while m <= mroot:
+        if s[i]:
+            j=(m*m-3)//2
+            s[j]=0
+            while j<half:
+                s[j]=0
+                j+=m
+        i=i+1
+        m=2*i+3
+    return [2]+[x for x in s if x]
+
+
+
+
+from bisect import bisect_left
+# sqrt(1000000000) = 31622
+__primes = primes(31622)
+def is_prime(n):
+    # if prime is already in the list, just pick it
+    if n <= 31622:
+        i = bisect_left(__primes, n)
+        return i != len(__primes) and __primes[i] == n
+    # Divide by each known prime
+    limit = int(n ** .5)
+    for p in __primes:
+        if p > limit: return True
+        if n % p == 0: return False
+    # fall back on trial division if n > 1 billion
+    for f in range(31627, limit, 6): # 31627 is the next prime
+        if n % f == 0 or n % (f + 4) == 0:
+            return False
+    return True
+
 
 ## function to return number of digits
 def num_digits(num):
@@ -141,7 +178,7 @@ def family_count(num, digit_locations):
         if (is_prime(newnum)) & (num_digits(newnum) == num_digits(num)):
             prime_count += 1
             string = " The new number is " + str(newnum) + "prime"
-            dbg_hi(string)
+            dbg_lo(string)
 
         # print the prime count
         string = " The prime count is" + str(prime_count)
@@ -160,7 +197,9 @@ def prob_51():
     #for curr_num in range(10000, 99999):#
     #for curr_num in range(55999, 56010):#
     #for curr_num in range(10, 9999999):#
-    for curr_num in range(121300, 121413):#
+    #for curr_num in range(121300, 121413):#
+    #for curr_num in range(120000, 121413):#
+    for curr_num in range(100, 121413):#
 
         curr_num_tot_digits = num_digits(curr_num)
 
@@ -175,7 +214,7 @@ def prob_51():
                 comb_input.append(b)
 
             string = "curr_num = " + str(curr_num) + " comb_input = " + str(list(comb_input))
-            dbg_hi(string)
+            dbg_lo(string)
 
             digit_locations = list(itertools.combinations(comb_input, num_digit_changes))
             string = "curr_num = " + str(curr_num) + " digit locations = " + str(digit_locations)
@@ -185,7 +224,7 @@ def prob_51():
             for curr_digit_locations in digit_locations:
 
                 string = "curr_num = " + str(curr_num) + " curr digit locations = " + str(curr_digit_locations)
-                dbg_hi(string)
+                dbg_lo(string)
                 step_over()
 
                 prime_count = family_count(curr_num, curr_digit_locations)
