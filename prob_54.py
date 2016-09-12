@@ -24,15 +24,15 @@
 # and so on.
 
 # Consider the following five hands dealt to two players:
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Hand                          Player 1                                                                   Player 2                                                   Winner
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# 1                             5H 5C 6S 7S KD Pair of Fives                                              2C 3S 8S 8D TD Pair of Eights                               Player 2
-# 2                             5D 8C 9S JS AC Highest card Ace                                           2C 5C 7D 8S QH Highest card Queen                           Player 1
-# 3                             2D 9C AS AH AC Three Aces                                                 3D 6D 7D TD QD Flush  with Diamonds                         Player 2
-# 4                             4D 6S 9H QH QC Pair of Queens    (Highest card Nine)                      3D 6D 7H QD QS Pair of Queens (Highest card Seven)          Player 1
-# 5                             2H 2D 4C 4D 4S Full House        (With Three Fours)                       3C 3D 3S 9S 9D Full House (with Three Threes)               Player 1
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# -------|-----------------------------------------------------------|--------------------------------------------------------|-------------------|---
+# Hand   |     Player 1                                              |     Player 2                                           |        Winner     |
+# -------|-----------------------------------------------------------|--------------------------------------------------------|-------------------|---
+# 1      |     5H 5C 6S 7S KD Pair of Fives                          |    2C 3S 8S 8D TD Pair of Eights                       |        Player 2   |
+# 2      |     5D 8C 9S JS AC Highest card Ace                       |    2C 5C 7D 8S QH Highest card Queen                   |        Player 1   |
+# 3      |     2D 9C AS AH AC Three Aces                             |    3D 6D 7D TD QD Flush  with Diamonds                 |        Player 2   |
+# 4      |     4D 6S 9H QH QC Pair of Queens    (Highest card Nine)  |    3D 6D 7H QD QS Pair of Queens (Highest card Seven)  |        Player 1   |
+# 5      |     2H 2D 4C 4D 4S Full House        (With Three Fours)   |    3C 3D 3S 9S 9D Full House (with Three Threes)       |        Player 1   |
+# -------|-----------------------------------------------------------|--------------------------------------------------------|-------------------|---
 
 # Player 1 The file, poker.txt, contains one-thousand random hands dealt
 # to two players. Each line of the file contains ten cards (separated by a
@@ -52,7 +52,7 @@
     # convert hand to an ordered list of numbers, shape
     # rank hand from [A-J]
     # compare highest cards
-# run all hands through comparator, which should have a counter
+# count wins for both players
 import sys, re
 
 player1_hands = []
