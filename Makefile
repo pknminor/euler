@@ -2,7 +2,6 @@ def: run
 
 # to run script in interpreter use the command, for example execfile('clear.py')
 
-
 PROB="default"
 
 run:
