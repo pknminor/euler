@@ -139,14 +139,42 @@ class Hand(object):
 
     def __init__(self):
         self.cardList = [Card() for i in range(5)]
+        self.value_cnt = {
+                         '1': 0,
+                         '2': 0,
+                         '3': 0,
+                         '4': 0,
+                         '5': 0,
+                         '6': 0,
+                         '7': 0,
+                         '8': 0,
+                         '9': 0,
+                         '10': 0,
+                         '11': 0,
+                         '12': 0,
+                         '13': 0,
+                         }
+        return
 
     def set_hand(self, otherCardList):
         for i in range(5):
             self.cardList[i].__set__(otherCardList[i])
+        self.create_sorted_hand()
+        self.count_cards()
+        return
+
+    def create_sorted_hand(self):
+        self.sorted_cardList = sorted(self.cardList, key=operator.attrgetter('int_value'))
+        return
+
+    def count_cards(self):
+        for card in self.sorted_cardList:
+            self.value_cnt[card.value] += 1
 
     # determine which hand is better, using the priority list in the problem
     def __lt__(self, other):
         pass
+        return
 
     def __str__(self):
         string = ''
@@ -175,11 +203,10 @@ class Hand(object):
 
     # all consecutive values
     def is_straight(self):
-        # CHECKME: only sorts on value alone
-        sorted_cardList = sorted(self.cardList, key=operator.attrgetter('int_value'))
+        # IMPROVEME
         first_card = Card()
-        first_card = sorted_cardList[0]
-        for card in sorted_cardList[1:]:
+        first_card = self.sorted_cardList[0]
+        for card in self.sorted_cardList[1:]:
             if first_card.int_value == (card.int_value - 1):
                 first_card = card
             else:
@@ -194,6 +221,10 @@ class Hand(object):
         pass
 
     def num_pairs(self):
+        # possible outcomes, 0, 1, 2
+        for i in self.value_cnt:
+            if self.value_cnt[i] == 2:
+                num_pairs += 1
         pass
 
     def has_four_of_a_kind(self):
@@ -238,7 +269,7 @@ def read_hands():
 
 def main(argv):
     #total_hands = 1000
-    total_hands = 6
+    total_hands = 2
 
     read_hands()  # read in text file in to tuples
 
@@ -258,11 +289,12 @@ def main(argv):
             newCardList1[i].set_value(cardTupList1[i][0])
             newCardList1[i].set_suit(cardTupList1[i][1])
 
-        print "smethin"
         Hand1 = Hand()
+        print "before set_hand"
         Hand1.set_hand(newCardList1)
+        print "after set_hand"
         print Hand1.__str__()
-        print Hand1.high_card()
+        #print "hand1 : Is straight?" + str(Hand1.is_straight())
 
         # player 2
         cardTupList2 = list(player2_hands.pop())
@@ -275,10 +307,10 @@ def main(argv):
         Hand2 = Hand()
         Hand2.set_hand(newCardList2)
         print Hand2.__str__()
-        print Hand2.high_card()
 
         # compare hands
-        print "Is straight?" + str(Hand2.is_straight())
+        #print "hand2 : Is straight?" + str(Hand2.is_straight())
+
 
         # keep track of wins
 
