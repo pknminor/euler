@@ -135,6 +135,7 @@ class Card(object):
         return 0
 
 # hand is a set of 5 cards
+# and methods used to compare hands
 class Hand(object):
 
     def __init__(self):
@@ -170,11 +171,6 @@ class Hand(object):
     def count_cards(self):
         for card in self.sorted_cardList:
             self.value_cnt[card.value] += 1
-
-    # determine which hand is better, using the priority list in the problem
-    def __lt__(self, other):
-        pass
-        return
 
     def __str__(self):
         string = ''
@@ -213,44 +209,106 @@ class Hand(object):
                 return False
         return True
 
+    def get_num_pairs(self):
+        tot_num_pairs = 0
+        for i in self.value_cnt:
+            if self.value_cnt[i] == 2:
+                tot_num_pairs += 1
+        return tot_num_pairs
+
+    def get_num_trips(self):
+        tot_num_trips = 0
+        for i in self.value_cnt:
+            if self.value_cnt[i] == 2:
+                tot_num_trips += 1
+        return tot_num_trips
+
+    def get_num_quads(self):
+        tot_num_quads = 0
+        for i in self.value_cnt:
+            if self.value_cnt[i] == 2:
+                tot_num_quads += 1
+        return tot_num_quads
+
     # consecutive values and same suit
     def is_straight_flush(self):
+        pass
+
+    def is_full_house(self):
         pass
 
     def is_royal_flush(self):
         pass
 
-    def num_pairs(self):
-        # possible outcomes, 0, 1, 2
-        for i in self.value_cnt:
-            if self.value_cnt[i] == 2:
-                num_pairs += 1
-        pass
-
-    def has_four_of_a_kind(self):
-        pass
-
-    def has_three_of_a_kind(self):
-        pass
-
     def compare_hands(self, otherHand):
-        # A. High Card: Highest value card.
-        # B. One Pair: Two cards of the same value.
-        # C. Two Pairs: Two different pairs.
-        # D. Three of a Kind: Three cards of the same value.
-        # E. Straight: All cards are consecutive values.
-        # F. Flush: All cards of the same suit.
-        # G. Full House: Three of a kind and a pair.
-        # H. Four of a Kind: Four cards of the same value.
-        # I. Straight Flush: All cards are consecutive values of same suit.
-        # J. Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
-
         # return 0 if we are the losing hand
         # return 1 if we are the winning hand
-        print self.high_card()
-        print otherHand.high_card()
 
-        pass
+        # A. High Card: Highest value card.
+        print "hand1 high card " +  str(self.high_card())
+        print "hand2 high card " +  str(otherHand.high_card())
+
+        # B. One Pair: Two cards of the same value.
+        if self.get_num_pairs() == 1:
+            print "Hand1 has one pair"
+
+        if otherHand.get_num_pairs() == 1:
+            print "Hand1 has one pair"
+
+        # C. Two Pairs: Two different pairs.
+        if self.get_num_pairs() == 1:
+            print "Hand1 has 2 diff pairs"
+
+        if otherHand.get_num_pairs() == 1:
+            print "Hand2 has 2 diff pairs"
+
+        # D. Three of a Kind: Three cards of the same value.
+        if self.get_num_trips() == 1:
+            print "Hand1 has 1 trip"
+
+        if otherHand.get_num_trips() == 1:
+            print "Hand2 has 1 trip"
+
+        # E. Straight: All cards are consecutive values.
+        if self.is_straight():
+            print "Hand1 is straight "
+
+        if otherHand.is_straight():
+            print "Hand2 is straight "
+
+        # F. Flush: All cards of the same suit.
+        if self.is_flush():
+            print "Hand1 is a flush "
+        if otherHand.is_flush():
+            print "Hand2 is a flush "
+
+        # G. Full House: Three of a kind and a pair.
+        if self.get_num_trips() & ( int(self.get_num_pairs()) == 1 ):
+            print "Hand1 is a full house"
+
+        if otherHand.get_num_trips() & otherHand.get_num_pairs() == 1:
+            print "Hand2 is a full house"
+
+        # H. Four of a Kind: Four cards of the same value.
+        if self.get_num_quads() == 1:
+            print "Hand1 is a four-of-a-kind"
+
+        if otherHand.get_num_quads() == 1:
+            print "Hand2 is a four-of-a-kind"
+
+        # I. Straight Flush: All cards are consecutive values of same suit.
+        if (self.is_straight() & self.is_flush()):
+            print "Hand1 is a straight flush "
+
+        if (otherHand.is_straight() & otherHand.is_flush()):
+            print "Hand2 is a straight flush"
+
+        # J. Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+        if (self.is_straight() & self.is_flush() & ( self.sorted_cardList[4] == '13') ):
+            print "Hand1 is a royal flush "
+
+        if (otherHand.is_straight() & otherHand.is_flush() & ( otherHand.sorted_cardList[4] == '13' ) ):
+            print "Hand2 is a royal flush"
 
 player1_hands = []
 player2_hands = []
@@ -268,16 +326,18 @@ def read_hands():
             player2_hands.append(tuple(cards[5:10]))
 
 def main(argv):
-    #total_hands = 1000
-    total_hands = 2
 
-    read_hands()  # read in text file in to tuples
+    read_hands()  # read in text file in to tlist
 
     # to preserve order of the text file containing all hands
     player1_hands.reverse()
     player2_hands.reverse()
 
-    for currentRound in range(total_hands):
+    total_hands = len(player1_hands)
+
+    total_hands_compared = total_hands
+
+    for currentRound in range(total_hands_compared):
 
         print "Round " + str(currentRound+ 1 ) + " !! "
 
@@ -309,8 +369,7 @@ def main(argv):
         print Hand2.__str__()
 
         # compare hands
-        #print "hand2 : Is straight?" + str(Hand2.is_straight())
-
+        Hand1.compare_hands(Hand2)
 
         # keep track of wins
 
