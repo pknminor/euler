@@ -256,10 +256,10 @@ class Hand(object):
             print "Hand1 has one pair"
 
         # C. Two Pairs: Two different pairs.
-        if self.get_num_pairs() == 1:
+        if self.get_num_pairs() == 2:
             print "Hand1 has 2 diff pairs"
 
-        if otherHand.get_num_pairs() == 1:
+        if otherHand.get_num_pairs() == 2:
             print "Hand2 has 2 diff pairs"
 
         # D. Three of a Kind: Three cards of the same value.
