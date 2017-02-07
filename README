@@ -6,6 +6,7 @@ Problem 54 - poker one
 
 Clean up prob_05
 
+Move is_prime function to common library/package
 
 
 
