@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 import sys
 import itertools
 import timeit
@@ -24,7 +24,36 @@ We can see that 28 is the first triangle number to have over five divisors.
 
 What is the value of the first triangle number to have over five hundred divisors?
 
+
+    # improve run time, 
+    #                    start at a really large number
+    #                    improve divisor function
+
 '''
+def remove_duplicates(pre_list):
+    clean_list = []
+    for i in pre_list:
+        if i not in clean_list:
+            clean_list.append(i)
+    return clean_list
+
+def get_all_divisors(num):
+    divisors_list = []
+    new_num = num
+    for n in range(2,num):
+        divisors_list.append(1)
+        if num % n == 0:
+            while new_num % n == 0:
+                new_num /= n
+            divisors_list.append(n)
+        # if new_num == 1:
+        #     break
+        # print str(n) + " NNN "
+        # print str(new_num) + " NewNN "
+    divisors_list = remove_duplicates(divisors_list)
+    divisors_list = sorted(divisors_list)
+    # print str(num) + " " + str(divisors_list)
+    return divisors_list
 
 # timeit
 def wrapper(func, *args, **kwargs):
@@ -33,7 +62,20 @@ def wrapper(func, *args, **kwargs):
     return wrapped
 
 def main(argv):
-    pass
+    number = 1
+    triangle_number = 1
+    not_so_large_number = 1
+    large_number        = 999
+    break_flag = 0
+    for i in range(1, 9999999):
+        number += 1
+        triangle_number += number
+        if (triangle_number > not_so_large_number):
+            if (len(get_all_divisors(triangle_number)) == 50):
+                print " result = " + str(triangle_number)
+                break_flag = 1
+        if break_flag:
+            break
 
 if __name__ == "__main__":
     wrapped = wrapper(main, sys.argv)
