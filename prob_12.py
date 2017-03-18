@@ -23,13 +23,8 @@ Let us list the factors of the first seven triangle numbers:
 We can see that 28 is the first triangle number to have over five divisors.
 
 What is the value of the first triangle number to have over five hundred divisors?
-
-
-    # improve run time, 
-    #                    start at a really large number
-    #                    improve divisor function
-
 '''
+
 def remove_duplicates(pre_list):
     clean_list = []
     for i in pre_list:
@@ -37,45 +32,57 @@ def remove_duplicates(pre_list):
             clean_list.append(i)
     return clean_list
 
-def get_all_divisors(num):
-    divisors_list = []
-    new_num = num
-    for n in range(2,num):
-        divisors_list.append(1)
-        if num % n == 0:
-            while new_num % n == 0:
-                new_num /= n
-            divisors_list.append(n)
-        # if new_num == 1:
-        #     break
-        # print str(n) + " NNN "
-        # print str(new_num) + " NewNN "
-    divisors_list = remove_duplicates(divisors_list)
-    divisors_list = sorted(divisors_list)
-    # print str(num) + " " + str(divisors_list)
-    return divisors_list
+def get_num_divisors_floor(num):
+    prime_list = [2, 3, 5, 7, 11]
+    divisor_list = []
+    divisor_list.append(1)
+    for curr_prime in prime_list:
+        if( num % curr_prime) == 0:
+                break_flag = 0
+                while True:
+                    #improve
+                    for idx in range(num+1,num/2,-1):
+                        if (idx * curr_prime) == num:
+                            divisor_list.append(idx)
+                            divisor_list.append(curr_prime)
+
+    divisor_list = remove_duplicates(divisor_list)
+    return len(divisor_list)
+
+def get_num_divisors(num):
+    temp_num = num
+    divisor_list = []
+    for idx1 in range(1,num+1):
+        for idx2 in range(idx1,num+1):
+            if (idx1*idx2) == num:
+                divisor_list.append(idx1)
+                divisor_list.append(idx2)
+
+    divisor_list = remove_duplicates(divisor_list)
+    print divisor_list
+    return len(divisor_list)
+
+def main(argv):
+    got_result = 0
+    new_triangle_number = 0
+    iterator = 1
+    break_flag = 0
+    #while (got_result == 0):
+    while True:
+        new_triangle_number += iterator
+        iterator += 1
+        print " Triangle number = " + str(new_triangle_number)
+        print " Iterator number = " + str(iterator)
+        if iterator == 1000: # rough estimate
+            print " RESULT = " + str(get_num_divisors_floor(new_triangle_number))
+            break_flag = 1
+            # break
 
 # timeit
 def wrapper(func, *args, **kwargs):
     def wrapped():
         return func(*args, **kwargs)
     return wrapped
-
-def main(argv):
-    number = 1
-    triangle_number = 1
-    not_so_large_number = 1
-    large_number        = 999
-    break_flag = 0
-    for i in range(1, 9999999):
-        number += 1
-        triangle_number += number
-        if (triangle_number > not_so_large_number):
-            if (len(get_all_divisors(triangle_number)) == 50):
-                print " result = " + str(triangle_number)
-                break_flag = 1
-        if break_flag:
-            break
 
 if __name__ == "__main__":
     wrapped = wrapper(main, sys.argv)
