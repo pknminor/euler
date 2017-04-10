@@ -29,8 +29,7 @@ def get_num_paths():
     total_paths = 0
     start_w, start_h = 0, 0
     # end_w, end_h = 2, 2
-    end_w, end_h = 19, 19
-    # end_w, end_h = 20, 20
+    end_w, end_h = 20, 20
     Matrix = [[0 for x in range(end_w)] for y in range(end_h)]
 
     Paths = []
